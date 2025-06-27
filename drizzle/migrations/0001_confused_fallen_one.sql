@@ -1,0 +1,1 @@
+CREATE INDEX "book_id_index" ON "reviews" USING btree ("book_id");
