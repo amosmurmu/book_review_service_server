@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
 import express from 'express'
 import { db } from './config/db'
-
+import bookRoutes from './routes/books.route'
+import reviewRoutes from './routes/reviews.route'
+import { setupSwagger } from './swagger'
 const app = express()
 
 const PORT = process.env.PORT || 3000
@@ -11,6 +13,10 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 app.use(express.json())
+setupSwagger(app)
+
+app.use(bookRoutes)
+app.use(reviewRoutes)
 
 const testDbConnection = async () => {
   try {
