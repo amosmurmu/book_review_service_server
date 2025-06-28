@@ -16,6 +16,9 @@ const pool = new Pool({
   ssl: {
     rejectUnauthorized: false,
   },
+  connectionTimeoutMillis: 5000,
+  max: 10,
+  idleTimeoutMillis: 10000,
 })
 
 pool
@@ -25,6 +28,19 @@ pool
     client.release()
   })
   .catch((err) => console.error('Error connecting to database', err))
+
+// keep alive connection so supabase doesn't kill my connection after idle time
+setInterval(async () => {
+  try {
+    await pool.query('SELECT 1')
+  } catch (err) {
+    console.error('Keep-alive failed:', err)
+  }
+}, 30000)
+
+pool.on('error', (err) => {
+  console.error('Unexpected PG pool error', err)
+})
 
 export default pool
 

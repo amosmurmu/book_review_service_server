@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import express from 'express'
-import { db } from './config/db'
+import pool, { db } from './config/db'
 import bookRoutes from './routes/books.route'
 import reviewRoutes from './routes/reviews.route'
 import { setupSwagger } from './swagger'
@@ -15,8 +15,15 @@ app.get('/', (req: Request, res: Response) => {
 app.use(express.json())
 setupSwagger(app)
 
-app.use(bookRoutes)
-app.use(reviewRoutes)
+app.use('/api', bookRoutes)
+app.use('/api', reviewRoutes)
+
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.error(err)
+  res.status(err.status || 500).json({
+    message: err.message || 'Internal Server Error',
+  })
+})
 
 const testDbConnection = async () => {
   try {
@@ -28,10 +35,17 @@ const testDbConnection = async () => {
   }
 }
 
+process.on('SIGINT', async () => {
+  console.log('Shutting down gracefully...')
+  await pool.end()
+  process.exit(1)
+})
+
 const startServer = async () => {
   await testDbConnection()
   app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`)
+    console.log(`Api docs is /api-docs`)
   })
 }
 

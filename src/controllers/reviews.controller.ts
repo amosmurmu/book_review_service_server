@@ -29,7 +29,14 @@ export const addReview = async (
 ) => {
   try {
     const bookId = parseInt(req.params.id)
+    if (isNaN(bookId)) {
+      res.status(400).json({ error: 'Invalid book ID' })
+    }
     const { rating, description } = req.body
+
+    if (typeof rating !== 'number' || rating < 0 || rating > 5) {
+      res.status(400).json({ error: 'Rating must be a number between 0 and 5' })
+    }
 
     const inserted = await db
       .insert(reviews)

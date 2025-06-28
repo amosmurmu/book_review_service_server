@@ -10,6 +10,11 @@ const options = {
       version: '1.0.0',
       description: 'API documentation for book service',
     },
+    servers: [
+      {
+        url: '/api',
+      },
+    ],
   },
   apis: ['./src/routes/*.ts'],
 }
