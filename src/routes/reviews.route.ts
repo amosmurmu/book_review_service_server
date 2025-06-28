@@ -48,9 +48,9 @@ router.get('/books/:id/reviews', getReviews)
  *              - comment
  *            properties:
  *              rating:
- *                type: number
+ *                type: real
  *                example: 4.5
- *              comment:
+ *              description:
  *                type: string
  *                example: "Amazing book"
  *     responses:
