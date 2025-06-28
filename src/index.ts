@@ -25,6 +25,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   })
 })
 
+export default app
+
 const testDbConnection = async () => {
   try {
     await db.execute('SELECT 1')
@@ -41,15 +43,17 @@ process.on('SIGINT', async () => {
   process.exit(1)
 })
 
-const startServer = async () => {
-  await testDbConnection()
-  app.listen(PORT, () => {
-    console.log(`Server running on ${PORT}`)
-    console.log(`Api docs is /api-docs`)
+if (process.env.NODE_ENV !== 'test') {
+  const startServer = async () => {
+    await testDbConnection()
+    app.listen(PORT, () => {
+      console.log(`Server running on ${PORT}`)
+      console.log(`Api docs is /api-docs`)
+    })
+  }
+
+  startServer().catch((err) => {
+    console.error('Failed to start server', err)
+    process.exit(1)
   })
 }
-
-startServer().catch((err) => {
-  console.error('Failed to start server', err)
-  process.exit(1)
-})

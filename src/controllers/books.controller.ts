@@ -47,9 +47,15 @@ export const createBook = async (
 
     if (!title || !author) {
       res.status(400).json({ message: 'Missing title or author' })
+      return
     }
 
     const result = await db.insert(books).values({ title, author }).returning()
+
+    if (!result || result.length === 0) {
+      res.status(500).json({ message: 'Failed to insert book' })
+      return
+    }
 
     res.status(201).json(result[0])
   } catch (error) {
