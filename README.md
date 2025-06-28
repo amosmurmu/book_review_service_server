@@ -19,7 +19,7 @@ A small backend service for managing books and their reviews.
 ### 1. Clone the repository
 
 ```bash
-git clone <your-repo-url>
+git clone git@github.com:amosmurmu/book_review_service_server.git
 cd book_review_service
 ```
 
@@ -50,5 +50,5 @@ npm run test
 
 ## API docs or Postman
 
-[Postman](https://image-processing-service.postman.co/workspace/Personal-Workspace~a7dceb61-dcb2-4f61-b372-a15f68e1d843/collection/26493025-ed75b36a-a286-4eb1-9a80-78287debf13b?action=share&creator=26493025&active-environment=26493025-19c2b721-9fbd-4d7d-a5fd-40a90933897a)
+[Postman](https://shorturl.at/5XHV5)
 Swagger UI - /api-docs
